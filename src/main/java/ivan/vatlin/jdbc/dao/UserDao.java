@@ -1,13 +1,18 @@
 package ivan.vatlin.jdbc.dao;
 
 import ivan.vatlin.jdbc.dto.User;
+import ivan.vatlin.jdbc.dto_helpers.UserRole;
 
 import java.util.List;
 
 public interface UserDao {
     List<User> getAllUsers();
 
-    List<User> getAdmins();
+    User getUserById(long id);
 
-    long addUser(User user);
+    List<User> getUsersByRole(UserRole userRole);
+
+    long createUser(User user);
+
+    long blockUser(long id);
 }

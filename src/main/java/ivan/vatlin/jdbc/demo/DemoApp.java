@@ -16,5 +16,11 @@ public class DemoApp {
     private void actionsOnUsers() {
         System.out.println("------ All users ------");
         System.out.println(userService.getAllUsers());
+
+        System.out.println("------ Some user by id ------");
+        System.out.println(userService.getUserById(10));
+
+        System.out.println("------ Users with admin role ------");
+        System.out.println(userService.getAdmins());
     }
 }
