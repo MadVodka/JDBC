@@ -2,6 +2,7 @@ package ivan.vatlin.jdbc.dao;
 
 import ivan.vatlin.jdbc.dto.User;
 import ivan.vatlin.jdbc.dto_helpers.UserRole;
+import ivan.vatlin.jdbc.statuses.UserStatus;
 
 import java.util.List;
 
@@ -14,5 +15,7 @@ public interface UserDao {
 
     long createUser(User user);
 
-    long blockUser(long id);
+    long updateUserStatus(long id, UserStatus userStatus);
+
+    long deleteUser(long id);
 }

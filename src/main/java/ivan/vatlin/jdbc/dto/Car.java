@@ -1,15 +1,13 @@
 package ivan.vatlin.jdbc.dto;
 
-import ivan.vatlin.jdbc.statuses.UserStatus;
+import ivan.vatlin.jdbc.statuses.CarStatus;
 
 public class Car {
     private long id;
-    private String brand;
-    private String model;
-    private int yearMade;
+    private CarSpecification carSpecification;
     private double pricePerDay;
     private String registrationNumber;
-    private UserStatus userStatus;
+    private CarStatus carStatus;
 
     public long getId() {
         return id;
@@ -20,30 +18,12 @@ public class Car {
         return this;
     }
 
-    public String getBrand() {
-        return brand;
+    public CarSpecification getCarSpecification() {
+        return carSpecification;
     }
 
-    public Car setBrand(String brand) {
-        this.brand = brand;
-        return this;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public Car setModel(String model) {
-        this.model = model;
-        return this;
-    }
-
-    public int getYearMade() {
-        return yearMade;
-    }
-
-    public Car setYearMade(int yearMade) {
-        this.yearMade = yearMade;
+    public Car setCarSpecification(CarSpecification carSpecification) {
+        this.carSpecification = carSpecification;
         return this;
     }
 
@@ -65,12 +45,23 @@ public class Car {
         return this;
     }
 
-    public UserStatus getUserStatus() {
-        return userStatus;
+    public CarStatus getCarStatus() {
+        return carStatus;
     }
 
-    public Car setUserStatus(UserStatus userStatus) {
-        this.userStatus = userStatus;
+    public Car setCarStatus(CarStatus carStatus) {
+        this.carStatus = carStatus;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", carSpecification=" + carSpecification +
+                ", pricePerDay=" + pricePerDay +
+                ", registrationNumber='" + registrationNumber + '\'' +
+                ", carStatus=" + carStatus +
+                '}';
     }
 }

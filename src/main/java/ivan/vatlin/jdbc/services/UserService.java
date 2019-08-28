@@ -13,7 +13,11 @@ public interface UserService {
 
     List<User> getAdmins();
 
+    long createUser(User user);
+
+    long activateUser(long id);
+
     long blockUser(long id);
 
-    long createUser(User user);
+    long deleteUser(long id);
 }

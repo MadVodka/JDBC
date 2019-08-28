@@ -9,7 +9,7 @@ public class User {
     private String firstName;
     private String secondName;
     private UserRole userRole;
-    private UserStatus userStatus;
+    private UserStatus userStatus = UserStatus.ACTIVE; // by default a new user active
 
     public long getId() {
         return id;
