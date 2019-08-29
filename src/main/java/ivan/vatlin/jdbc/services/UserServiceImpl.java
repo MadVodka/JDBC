@@ -5,6 +5,7 @@ import ivan.vatlin.jdbc.dto.User;
 import ivan.vatlin.jdbc.dto_helpers.UserRole;
 import ivan.vatlin.jdbc.statuses.UserStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,8 +19,16 @@ public class UserServiceImpl implements UserService {
         return userDao.getAllUsers();
     }
 
+    public List<User> getOrderedUsers() {
+        return userDao.getOrderedUsers();
+    }
+
     public User getUserById(long id) {
-        return userDao.getUserById(id);
+        try {
+            return userDao.getUserById(id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public List<User> getClients() {

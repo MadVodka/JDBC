@@ -62,6 +62,6 @@ public class Car {
                 ", pricePerDay=" + pricePerDay +
                 ", registrationNumber='" + registrationNumber + '\'' +
                 ", carStatus=" + carStatus +
-                '}';
+                '}' + "\n";
     }
 }

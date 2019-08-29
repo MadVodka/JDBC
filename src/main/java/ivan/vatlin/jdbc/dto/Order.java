@@ -8,11 +8,12 @@ public class Order {
     private long carId;
     private String startDate;
     private String endDate;
-    private User user;
+    private long userId;
+
     private OrderStatus orderStatus;
+
     private double pricePerDay;
     private double totalPrice;
-
     public long getId() {
         return id;
     }
@@ -43,6 +44,42 @@ public class Order {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public Order setUserId(long userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public Order setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+        return this;
+    }
+
+    public double getPricePerDay() {
+        return pricePerDay;
+    }
+
+    public Order setPricePerDay(double pricePerDay) {
+        this.pricePerDay = pricePerDay;
+        return this;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public Order setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+        return this;
     }
 
     @Override

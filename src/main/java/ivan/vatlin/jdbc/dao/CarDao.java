@@ -20,7 +20,9 @@ public interface CarDao {
 
     List<Car> getCarsWithPriceLessThan(double price);
 
-    long addCar(Car car);
+    int addCar(Car car);
 
-    long removeCar(long id);
+    int removeCar(long id);
+
+    int updateCarPrice(long id, double price);
 }

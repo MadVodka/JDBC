@@ -7,6 +7,8 @@ import java.util.List;
 public interface UserService {
     List<User> getAllUsers();
 
+    List<User> getOrderedUsers();
+
     User getUserById(long id);
 
     List<User> getClients();

@@ -1,26 +1,45 @@
 package ivan.vatlin.jdbc.demo;
 
+import ivan.vatlin.jdbc.dto.Car;
+import ivan.vatlin.jdbc.dto.CarSpecification;
 import ivan.vatlin.jdbc.dto.User;
 import ivan.vatlin.jdbc.dto_helpers.UserRole;
+import ivan.vatlin.jdbc.services.CarService;
+import ivan.vatlin.jdbc.services.CarSpecificationService;
 import ivan.vatlin.jdbc.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class DemoApp {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CarService carService;
+
+    @Autowired
+    private CarSpecificationService carSpecificationService;
+
     public void run() {
+        System.out.println("##### Actions with users #####");
         actionsOnUsers();
+        System.out.println();
+        System.out.println("##### Actions with cars #####");
+        actionsOnCars();
     }
 
     private void actionsOnUsers() {
         System.out.println("------ All users ------");
         System.out.println(userService.getAllUsers());
 
+        List<User> orderedUsers = userService.getOrderedUsers();
+        printActionsBlock("Ordered users", orderedUsers);
+
         System.out.println("------ Some user by id ------");
-        System.out.println(userService.getUserById(10));
+        System.out.println(userService.getUserById(1));
 
         System.out.println("------ Users with admin role ------");
         System.out.println(userService.getAdmins());
@@ -35,10 +54,81 @@ public class DemoApp {
         System.out.println(userService.createUser(user));
 
         System.out.println("------ Block a user ------");
-        System.out.println(userService.blockUser(16) > 0 ? "User has been blocked" : "Can't block the user");
+        System.out.println(userService.blockUser(16) > 0 ? "User has been blocked" : "Can't block this user");
 
         System.out.println("------ Activate a user ------");
-        System.out.println(userService.activateUser(16) > 0 ? "User has been activated" : "Can't activate the user");
+        System.out.println(userService.activateUser(16) > 0 ? "User has been activated" : "Can't activate this user");
 
+        System.out.println("------ Delete a user ------");
+        System.out.println(userService.deleteUser(1) > 0 ? "User has been deleted" : "Can't deleted this user");
+    }
+
+    private void actionsOnCars() {
+        List<Car> allCars = carService.getAllCars();
+        printActionsBlock("All cars", allCars);
+
+        Car carById = carService.getCarById(1);
+        printActionsBlock("Some car by id", carById);
+
+        List<Car> carsInMaintenance = carService.getCarsInMaintenance();
+        printActionsBlock("Cars in maintenance", carsInMaintenance);
+
+        double price = 78;
+        List<Car> carsWithPriceGreaterThan = carService.getCarsWithPriceGreaterThan(price);
+        printActionsBlock("Cars with price greater than " + price, carsWithPriceGreaterThan);
+
+        List<Car> carsWithPriceEqual = carService.getCarsWithPriceEqual(91);
+        printActionsBlock("Cars with price equal " + 91, carsWithPriceEqual);
+
+        int updateCarPriceStatus = carService.updateCarPrice(5, 62);
+        printActionsBlock("Changing price of a car",
+                updateCarPriceStatus > 0 ? "Price of the car with id 5 has been updated to 62" :
+                        "No such a car");
+
+//        Car car = new Car();
+//        CarSpecification carSpecification = new CarSpecification();
+//        carSpecification.setId(13);
+//        car.setCarSpecification(carSpecification)
+//                .setPricePerDay(140)
+//                .setRegistrationNumber("им423е");
+//        int addCarStatus = carService.addCar(car);
+//        printActionsBlock("Adding a car", addCarStatus > 0 ? car + " has been added" :
+//                car + " has not been added");
+
+        int removeCarStatus = carService.removeCar(7);
+        printActionsBlock("Removing a car", removeCarStatus > 0 ? "Car 7 has been removed" :
+                "No such a car");
+    }
+
+    private void actionsOnCarsSpecifications() {
+        List<CarSpecification> carSpecifications = carSpecificationService.getCarSpecifications();
+        printActionsBlock("All cars specifications", carSpecifications);
+
+        CarSpecification carSpecificationById = carSpecificationService.getCarSpecificationById(15);
+        printActionsBlock("Car specification by id", carSpecificationById);
+
+        List<CarSpecification> specificationByBrand = carSpecificationService.getCarSpecificationByBrand("Audi");
+        printActionsBlock("Car specifications by brand", specificationByBrand);
+
+        List<CarSpecification> carSpecificationByYear = carSpecificationService.getCarSpecificationByYear(2014);
+        printActionsBlock("Car specifications by year", carSpecificationByYear);
+
+        CarSpecification carSpecification = new CarSpecification();
+        carSpecification.setBrand("Nissan")
+                .setModel("Juke")
+                .setYearMade(2011);
+        long createResult = carSpecificationService.createCarSpecification(carSpecification);
+        printActionsBlock("Creating car specification " + carSpecification,
+                createResult > 0 ? "Has been added" : "Has not been added");
+
+        long deleteResult = carSpecificationService.deleteCarSpecification(8);
+        printActionsBlock("Delete car specification id " + 8,
+                deleteResult > 0 ? "Has been deleted" : "No such specification");
+    }
+
+    private void printActionsBlock(String blockName, Object resultOfAction) {
+        System.out.println("------ " + blockName + " ------");
+        System.out.println(resultOfAction);
+        System.out.println();
     }
 }

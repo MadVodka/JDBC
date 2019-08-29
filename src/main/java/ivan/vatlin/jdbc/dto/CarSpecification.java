@@ -4,7 +4,7 @@ public class CarSpecification {
     private long id;
     private String brand;
     private String model;
-    private short yearMade;
+    private int yearMade;
 
     public long getId() {
         return id;
@@ -33,11 +33,11 @@ public class CarSpecification {
         return this;
     }
 
-    public short getYearMade() {
+    public int getYearMade() {
         return yearMade;
     }
 
-    public CarSpecification setYearMade(short yearMade) {
+    public CarSpecification setYearMade(int yearMade) {
         this.yearMade = yearMade;
         return this;
     }

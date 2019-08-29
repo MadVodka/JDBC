@@ -9,6 +9,8 @@ import java.util.List;
 public interface UserDao {
     List<User> getAllUsers();
 
+    List<User> getOrderedUsers();
+
     User getUserById(long id);
 
     List<User> getUsersByRole(UserRole userRole);

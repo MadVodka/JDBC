@@ -56,14 +56,19 @@ public class CarDaoImpl implements CarDao {
         return jdbcTemplate.query(sql, new CarMapper(), price);
     }
 
-    public long addCar(Car car) {
+    public int addCar(Car car) {
         String sql = "insert into cars (cars_spec_id, price_per_day, reg_number) values (?, ?, ?)";
         return jdbcTemplate.update(sql, car.getCarSpecification().getId(), car.getPricePerDay(),
                 car.getRegistrationNumber());
     }
 
-    public long removeCar(long id) {
+    public int removeCar(long id) {
         String sql = "delete from cars where id = ?";
         return jdbcTemplate.update(sql, id);
+    }
+
+    public int updateCarPrice(long id, double price) {
+        String sql = "update cars set price_per_day = ? where id = ?";
+        return jdbcTemplate.update(sql, price, id);
     }
 }

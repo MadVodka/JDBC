@@ -21,13 +21,14 @@ public class UserDaoImpl implements UserDao {
         return jdbcTemplate.query(sql, new UserMapper());
     }
 
+    public List<User> getOrderedUsers() {
+        String sql = "select * from users order by second_name, first_name";
+        return jdbcTemplate.query(sql, new UserMapper());
+    }
+
     public User getUserById(long id) {
         String sql = "select * from users where id = ?";
-        try {
-            return jdbcTemplate.queryForObject(sql, new UserMapper(), id);
-        } catch (DataAccessException e) {
-            return null;
-        }
+        return jdbcTemplate.queryForObject(sql, new UserMapper(), id);
     }
 
     public List<User> getUsersByRole(UserRole userRole) {
@@ -36,7 +37,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     public long createUser(User user) {
-        String sql = "insert users (userName, firstName, secondName, role) values (?, ?, ?, ?)";
+        String sql = "insert users (user_name, first_name, second_name, role) values (?, ?, ?, ?)";
         try {
             return jdbcTemplate.update(sql, user.getUserName(), user.getFirstName(), user.getSecondName(),
                     user.getUserRole().toString());

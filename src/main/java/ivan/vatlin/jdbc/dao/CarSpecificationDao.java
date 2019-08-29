@@ -11,7 +11,7 @@ public interface CarSpecificationDao {
 
     List<CarSpecification> getCarSpecificationByBrand(String brand);
 
-    List<CarSpecification> getCarSpecificationByYear(short year);
+    List<CarSpecification> getCarSpecificationByYear(int year);
 
     long createCarSpecification(CarSpecification carSpecification);
 
