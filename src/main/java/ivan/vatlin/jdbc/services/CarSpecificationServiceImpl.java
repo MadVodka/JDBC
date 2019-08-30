@@ -3,6 +3,7 @@ package ivan.vatlin.jdbc.services;
 import ivan.vatlin.jdbc.dao.CarSpecificationDao;
 import ivan.vatlin.jdbc.dto.CarSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,19 @@ public class CarSpecificationServiceImpl implements CarSpecificationService {
     }
 
     public CarSpecification getCarSpecificationById(long id) {
-        return carSpecificationDao.getCarSpecificationById(id);
+        try {
+            return carSpecificationDao.getCarSpecificationById(id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public CarSpecification getCarSpecificationByWholeInfo(CarSpecification carSpecification) {
+        try {
+            return carSpecificationDao.getCarSpecificationByWholeInfo(carSpecification);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public List<CarSpecification> getCarSpecificationByBrand(String brand) {
@@ -28,11 +41,14 @@ public class CarSpecificationServiceImpl implements CarSpecificationService {
         return carSpecificationDao.getCarSpecificationByYear(year);
     }
 
-    public long createCarSpecification(CarSpecification carSpecification) {
-        return carSpecificationDao.createCarSpecification(carSpecification);
+    public int createCarSpecification(CarSpecification carSpecification) {
+        if (getCarSpecificationByWholeInfo(carSpecification) == null) {
+            return carSpecificationDao.createCarSpecification(carSpecification);
+        }
+        return -1;
     }
 
-    public long deleteCarSpecification(long id) {
+    public int deleteCarSpecification(long id) {
         return carSpecificationDao.deleteCarSpecification(id);
     }
 }

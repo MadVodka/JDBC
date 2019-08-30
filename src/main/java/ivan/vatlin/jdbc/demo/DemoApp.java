@@ -29,6 +29,8 @@ public class DemoApp {
         System.out.println();
 //        System.out.println("##### Actions with cars #####");
 //        actionsOnCars();
+        System.out.println("##### Actions with car specifications #####");
+        actionsOnCarsSpecifications();
     }
 
     private void actionsOnUsers() {
@@ -114,28 +116,36 @@ public class DemoApp {
 
     private void actionsOnCarsSpecifications() {
         List<CarSpecification> carSpecifications = carSpecificationService.getCarSpecifications();
-        printActionsBlock("All cars specifications", carSpecifications);
+        printActionsBlock("All cars specifications",
+                carSpecifications == null ? "Not found" : carSpecifications);
 
-        CarSpecification carSpecificationById = carSpecificationService.getCarSpecificationById(15);
-        printActionsBlock("Car specification by id", carSpecificationById);
+        long id = 15;
+        CarSpecification carSpecificationById = carSpecificationService.getCarSpecificationById(id);
+        printActionsBlock("Car specification by id " + id,
+                carSpecificationById == null ? " not found" : carSpecificationById);
 
-        List<CarSpecification> specificationByBrand = carSpecificationService.getCarSpecificationByBrand("Audi");
-        printActionsBlock("Car specifications by brand", specificationByBrand);
+        String brand = "Audi";
+        List<CarSpecification> specificationByBrand = carSpecificationService.getCarSpecificationByBrand(brand);
+        printActionsBlock("Car specifications (brand " + brand + ")",
+                specificationByBrand == null ? "not found" : specificationByBrand);
 
+        int year = 2014;
         List<CarSpecification> carSpecificationByYear = carSpecificationService.getCarSpecificationByYear(2014);
-        printActionsBlock("Car specifications by year", carSpecificationByYear);
+        printActionsBlock("Car specifications (year " + year + ")",
+                carSpecificationByYear == null ? "not found" : carSpecificationByYear);
 
         CarSpecification carSpecification = new CarSpecification();
         carSpecification.setBrand("Nissan")
                 .setModel("Juke")
                 .setYearMade(2011);
-        long createResult = carSpecificationService.createCarSpecification(carSpecification);
+        int createResult = carSpecificationService.createCarSpecification(carSpecification);
         printActionsBlock("Creating car specification " + carSpecification,
-                createResult > 0 ? "Has been added" : "Has not been added");
+                createResult > 0 ? "added" : "can't be added (already exists)");
 
-        long deleteResult = carSpecificationService.deleteCarSpecification(8);
-        printActionsBlock("Delete car specification id " + 8,
-                deleteResult > 0 ? "Has been deleted" : "No such specification");
+        long deleteId = 8;
+        int deleteResult = carSpecificationService.deleteCarSpecification(deleteId);
+        printActionsBlock("Delete car specification id " + deleteId,
+                deleteResult > 0 ? "deleted" : "can't be deleted");
     }
 
     private void printActionsBlock(String blockName, Object resultOfAction) {

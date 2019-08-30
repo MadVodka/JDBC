@@ -9,11 +9,13 @@ public interface CarSpecificationDao {
 
     CarSpecification getCarSpecificationById(long id);
 
+    CarSpecification getCarSpecificationByWholeInfo(CarSpecification carSpecification);
+
     List<CarSpecification> getCarSpecificationByBrand(String brand);
 
     List<CarSpecification> getCarSpecificationByYear(int year);
 
-    long createCarSpecification(CarSpecification carSpecification);
+    int createCarSpecification(CarSpecification carSpecification);
 
-    long deleteCarSpecification(long id);
+    int deleteCarSpecification(long id);
 }

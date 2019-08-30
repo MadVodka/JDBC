@@ -23,6 +23,12 @@ public class CarSpecificationDaoImpl implements CarSpecificationDao {
         return jdbcTemplate.queryForObject(sql, new CarSpecificationMapper(), id);
     }
 
+    public CarSpecification getCarSpecificationByWholeInfo(CarSpecification carSpecification) {
+        String sql = "select * from cars_specification where brand = ? and model = ? and year_made = ?";
+        return jdbcTemplate.queryForObject(sql, new CarSpecificationMapper(),
+                carSpecification.getBrand(), carSpecification.getModel(), carSpecification.getYearMade());
+    }
+
     public List<CarSpecification> getCarSpecificationByBrand(String brand) {
         String sql = "select * from cars_specification where brand = ?";
         return jdbcTemplate.query(sql, new CarSpecificationMapper(), brand);
@@ -33,13 +39,13 @@ public class CarSpecificationDaoImpl implements CarSpecificationDao {
         return jdbcTemplate.query(sql, new CarSpecificationMapper(), year);
     }
 
-    public long createCarSpecification(CarSpecification carSpecification) {
-        String sql = "insert into cars_specification ('brand', 'model', 'year_made') values (?, ?, ?)";
-        return jdbcTemplate.update(sql, new CarSpecificationMapper(), carSpecification.getBrand(),
+    public int createCarSpecification(CarSpecification carSpecification) {
+        String sql = "insert into cars_specification (brand, model, year_made) values (?, ?, ?)";
+        return jdbcTemplate.update(sql, carSpecification.getBrand(),
                 carSpecification.getModel(), carSpecification.getYearMade());
     }
 
-    public long deleteCarSpecification(long id) {
+    public int deleteCarSpecification(long id) {
         String sql = "delete from cars_specification where id = ?";
         return jdbcTemplate.update(sql, id);
     }

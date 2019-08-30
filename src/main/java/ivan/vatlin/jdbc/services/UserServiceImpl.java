@@ -50,9 +50,8 @@ public class UserServiceImpl implements UserService {
     public int createUser(User user) {
         if (getUserByUserName(user.getUserName()) == null) {
             return userDao.createUser(user);
-        } else {
-            return -1;
         }
+        return -1;
     }
 
     public int activateUser(long id) {
