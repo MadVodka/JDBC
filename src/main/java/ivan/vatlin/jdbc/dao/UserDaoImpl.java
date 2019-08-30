@@ -5,7 +5,6 @@ import ivan.vatlin.jdbc.dto_helpers.UserRole;
 import ivan.vatlin.jdbc.mappers.UserMapper;
 import ivan.vatlin.jdbc.statuses.UserStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -31,27 +30,28 @@ public class UserDaoImpl implements UserDao {
         return jdbcTemplate.queryForObject(sql, new UserMapper(), id);
     }
 
+    public User getUserByUserName(String userName) {
+        String sql = "select * from users where user_name = ?";
+        return jdbcTemplate.queryForObject(sql, new UserMapper(), userName);
+    }
+
     public List<User> getUsersByRole(UserRole userRole) {
         String sql = "select * from users where role = ?";
         return jdbcTemplate.query(sql, new UserMapper(), userRole.toString());
     }
 
-    public long createUser(User user) {
+    public int createUser(User user) {
         String sql = "insert users (user_name, first_name, second_name, role) values (?, ?, ?, ?)";
-        try {
-            return jdbcTemplate.update(sql, user.getUserName(), user.getFirstName(), user.getSecondName(),
-                    user.getUserRole().toString());
-        } catch (DataAccessException e) {
-            return -1;
-        }
+        return jdbcTemplate.update(sql, user.getUserName(), user.getFirstName(), user.getSecondName(),
+                user.getUserRole().toString());
     }
 
-    public long updateUserStatus(long id, UserStatus userStatus) {
+    public int updateUserStatus(long id, UserStatus userStatus) {
         String sql = "update users set status = ? where id = ?";
         return jdbcTemplate.update(sql, userStatus.toString(), id);
     }
 
-    public long deleteUser(long id) {
+    public int deleteUser(long id) {
         String sql = "delete from users where id = ?";
         return jdbcTemplate.update(sql, id);
     }

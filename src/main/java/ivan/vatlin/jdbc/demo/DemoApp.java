@@ -27,40 +27,52 @@ public class DemoApp {
         System.out.println("##### Actions with users #####");
         actionsOnUsers();
         System.out.println();
-        System.out.println("##### Actions with cars #####");
-        actionsOnCars();
+//        System.out.println("##### Actions with cars #####");
+//        actionsOnCars();
     }
 
     private void actionsOnUsers() {
-        System.out.println("------ All users ------");
-        System.out.println(userService.getAllUsers());
+        List<User> allUsers = userService.getAllUsers();
+        printActionsBlock("All users",
+                allUsers.isEmpty() ? "Users not found" : allUsers);
 
         List<User> orderedUsers = userService.getOrderedUsers();
-        printActionsBlock("Ordered users", orderedUsers);
+        printActionsBlock("Ordered users",
+                orderedUsers.isEmpty() ? "Users not found" : orderedUsers);
 
-        System.out.println("------ Some user by id ------");
-        System.out.println(userService.getUserById(1));
+        long id = 1;
+        User userById = userService.getUserById(id);
+        printActionsBlock("Some user by id",
+                userById == null ? "User with id " + id + " not found" : userById);
 
-        System.out.println("------ Users with admin role ------");
-        System.out.println(userService.getAdmins());
+        List<User> admins = userService.getAdmins();
+        printActionsBlock("Users with admin role",
+                admins.isEmpty() ? "Users not found" : admins);
 
-        System.out.println("------ Create a new user as client ------");
         User user = new User();
         user.setUserName("igorIgor")
                 .setFirstName("Игорь")
                 .setSecondName("Великий")
                 .setUserRole(UserRole.CLIENT);
-        System.out.println(user);
-        System.out.println(userService.createUser(user));
+        int userCreationResult = userService.createUser(user);
+        printActionsBlock("Create a new user as client",
+                user + (userCreationResult > 0 ? " created" : " can't be created. Check use other username"));
 
-        System.out.println("------ Block a user ------");
-        System.out.println(userService.blockUser(16) > 0 ? "User has been blocked" : "Can't block this user");
+        long blockUserId = 16;
+        int blockUserResult = userService.blockUser(blockUserId);
+        printActionsBlock("Block a user",
+                "User id " + blockUserId + (blockUserResult > 0 ? " blocked" : " can't be blocked"));
 
-        System.out.println("------ Activate a user ------");
-        System.out.println(userService.activateUser(16) > 0 ? "User has been activated" : "Can't activate this user");
+        long activateUserId = 16;
+        int activateUserResult = userService.activateUser(activateUserId);
+        printActionsBlock("Activate a user",
+                "User id " + activateUserId + (activateUserResult > 0 ? " activated" : " can't be activated"));
 
-        System.out.println("------ Delete a user ------");
-        System.out.println(userService.deleteUser(1) > 0 ? "User has been deleted" : "Can't deleted this user");
+
+        long deleteUserId = 1;
+        int deleteUserResult = userService.deleteUser(1);
+        printActionsBlock("Delete a user",
+                "User id " + deleteUserId + (deleteUserResult > 0 ? " deleted" : " can't be deleted"));
     }
 
     private void actionsOnCars() {

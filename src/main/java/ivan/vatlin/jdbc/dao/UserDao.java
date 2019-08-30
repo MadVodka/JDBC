@@ -13,11 +13,13 @@ public interface UserDao {
 
     User getUserById(long id);
 
+    User getUserByUserName(String userName);
+
     List<User> getUsersByRole(UserRole userRole);
 
-    long createUser(User user);
+    int createUser(User user);
 
-    long updateUserStatus(long id, UserStatus userStatus);
+    int updateUserStatus(long id, UserStatus userStatus);
 
-    long deleteUser(long id);
+    int deleteUser(long id);
 }

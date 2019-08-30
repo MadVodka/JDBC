@@ -11,15 +11,17 @@ public interface UserService {
 
     User getUserById(long id);
 
+    User getUserByUserName(String userName);
+
     List<User> getClients();
 
     List<User> getAdmins();
 
-    long createUser(User user);
+    int createUser(User user);
 
-    long activateUser(long id);
+    int activateUser(long id);
 
-    long blockUser(long id);
+    int blockUser(long id);
 
-    long deleteUser(long id);
+    int deleteUser(long id);
 }

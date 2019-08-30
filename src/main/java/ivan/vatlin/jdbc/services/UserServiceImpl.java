@@ -31,6 +31,14 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public User getUserByUserName(String userName) {
+        try {
+            return userDao.getUserByUserName(userName);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
     public List<User> getClients() {
         return userDao.getUsersByRole(UserRole.CLIENT);
     }
@@ -39,19 +47,23 @@ public class UserServiceImpl implements UserService {
         return userDao.getUsersByRole(UserRole.ADMIN);
     }
 
-    public long createUser(User user) {
-        return userDao.createUser(user);
+    public int createUser(User user) {
+        if (getUserByUserName(user.getUserName()) == null) {
+            return userDao.createUser(user);
+        } else {
+            return -1;
+        }
     }
 
-    public long activateUser(long id) {
+    public int activateUser(long id) {
         return userDao.updateUserStatus(id, UserStatus.ACTIVE);
     }
 
-    public long blockUser(long id) {
+    public int blockUser(long id) {
         return userDao.updateUserStatus(id, UserStatus.BLOCKED);
     }
 
-    public long deleteUser(long id) {
+    public int deleteUser(long id) {
         return userDao.deleteUser(id);
     }
 }

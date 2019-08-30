@@ -15,9 +15,9 @@ public class UserMapper implements RowMapper<User> {
         User user = new User();
 
         user.setId(resultSet.getLong("id"))
-                .setUserName(resultSet.getString("userName"))
-                .setFirstName(resultSet.getString("firstName"))
-                .setSecondName(resultSet.getString("secondName"))
+                .setUserName(resultSet.getString("user_name"))
+                .setFirstName(resultSet.getString("first_name"))
+                .setSecondName(resultSet.getString("second_Name"))
                 .setUserRole(UserRole.valueOf(resultSet.getString("role")))
                 .setUserStatus(UserStatus.valueOf(resultSet.getString("status")));
 
