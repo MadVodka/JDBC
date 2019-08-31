@@ -1,6 +1,6 @@
 package ivan.vatlin.jdbc;
 
-import ivan.vatlin.jdbc.demo.DemoApp;
+import ivan.vatlin.jdbc.demo.ActionsWithDatabaseDemo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -9,7 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class Application {
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(Application.class);
-        DemoApp demoApp = applicationContext.getBean(DemoApp.class);
-        demoApp.run();
+        ActionsWithDatabaseDemo actionsWithDatabaseDemo = applicationContext.getBean(ActionsWithDatabaseDemo.class);
+        actionsWithDatabaseDemo.run();
     }
 }

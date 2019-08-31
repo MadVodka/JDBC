@@ -2,10 +2,12 @@ package ivan.vatlin.jdbc.demo;
 
 import ivan.vatlin.jdbc.dto.Car;
 import ivan.vatlin.jdbc.dto.CarSpecification;
+import ivan.vatlin.jdbc.dto.Order;
 import ivan.vatlin.jdbc.dto.User;
 import ivan.vatlin.jdbc.dto_helpers.UserRole;
 import ivan.vatlin.jdbc.services.CarService;
 import ivan.vatlin.jdbc.services.CarSpecificationService;
+import ivan.vatlin.jdbc.services.OrderService;
 import ivan.vatlin.jdbc.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,15 +15,18 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class DemoApp {
+public class ActionsWithDatabaseDemo {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CarSpecificationService carSpecificationService;
 
     @Autowired
     private CarService carService;
 
     @Autowired
-    private CarSpecificationService carSpecificationService;
+    private OrderService orderService;
 
     public void run() {
         System.out.println("##### Actions with users #####");
@@ -32,6 +37,9 @@ public class DemoApp {
         System.out.println();
         System.out.println("##### Actions with cars #####");
         actionsOnCars();
+        System.out.println();
+        System.out.println("##### Actions with orders #####");
+        actionsOnOrders();
     }
 
     // доработать удаление юзера (проверить в ордерах)
@@ -165,7 +173,28 @@ public class DemoApp {
     }
 
     private void actionsOnOrders() {
+        List<Order> allOrders = orderService.getAllOrders();
+        printActionsBlock("All orders", allOrders.isEmpty() ? "Not found" : allOrders);
 
+        long idOrder = 3;
+        Order order = orderService.getOrderById(idOrder);
+        printActionsBlock("Order by id " + idOrder, order == null ? "Not found" : order);
+
+        int approveOrderResult = orderService.approveOrder(idOrder);
+        printActionsBlock("Order with id " + idOrder, approveOrderResult > 0 ? "approved" : "can't be approved");
+
+        int denyOrderResult = orderService.denyOrder(idOrder);
+        printActionsBlock("Order with id " + idOrder, denyOrderResult > 0 ? "denied" : "can't be denied");
+
+        Order createOrder = new Order();
+        createOrder.setCarId(2)
+                .setUserId(20)
+                .setStartDate("2019-09-04")
+                .setEndDate("2019-09-10")
+                .setPricePerDay(100)
+                .setTotalPrice(700);
+        int createOrderResult = orderService.createOrder(createOrder);
+        printActionsBlock("Order " + createOrder, createOrderResult > 0 ? "Created" : "Can't be created");
     }
 
     private void printActionsBlock(String blockName, Object resultOfAction) {

@@ -1,6 +1,5 @@
 package ivan.vatlin.jdbc.dto;
 
-import ivan.vatlin.jdbc.statuses.CarStatus;
 import ivan.vatlin.jdbc.statuses.OrderStatus;
 
 public class Order {
@@ -9,41 +8,44 @@ public class Order {
     private String startDate;
     private String endDate;
     private long userId;
-
     private OrderStatus orderStatus;
-
     private double pricePerDay;
     private double totalPrice;
+
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public Order setId(long id) {
         this.id = id;
+        return this;
     }
 
     public long getCarId() {
         return carId;
     }
 
-    public void setCarId(long carId) {
+    public Order setCarId(long carId) {
         this.carId = carId;
+        return this;
     }
 
     public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public Order setStartDate(String startDate) {
         this.startDate = startDate;
+        return this;
     }
 
     public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public Order setEndDate(String endDate) {
         this.endDate = endDate;
+        return this;
     }
 
     public long getUserId() {
@@ -77,11 +79,6 @@ public class Order {
         return totalPrice;
     }
 
-    public Order setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-        return this;
-    }
-
     @Override
     public String toString() {
         return "Order{" +
@@ -89,6 +86,16 @@ public class Order {
                 ", carId=" + carId +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
+                ", userId=" + userId +
+                ", orderStatus=" + orderStatus +
+                ", pricePerDay=" + pricePerDay +
+                ", totalPrice=" + totalPrice +
                 '}';
     }
+
+    public Order setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+        return this;
+    }
+
 }
