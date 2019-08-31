@@ -42,7 +42,6 @@ public class ActionsWithDatabaseDemo {
         actionsOnOrders();
     }
 
-    // доработать удаление юзера (проверить в ордерах)
     private void actionsOnUsers() {
         List<User> allUsers = userService.getAllUsers();
         printActionsBlock("All users",
