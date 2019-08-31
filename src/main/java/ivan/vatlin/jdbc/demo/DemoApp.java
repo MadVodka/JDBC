@@ -31,8 +31,12 @@ public class DemoApp {
 //        actionsOnCars();
         System.out.println("##### Actions with car specifications #####");
         actionsOnCarsSpecifications();
+        System.out.println();
+        System.out.println("##### Actions with cars #####");
+        actionsOnCars();
     }
 
+    // доработать удаление юзера (проверить в ордерах)
     private void actionsOnUsers() {
         List<User> allUsers = userService.getAllUsers();
         printActionsBlock("All users",
@@ -79,39 +83,53 @@ public class DemoApp {
 
     private void actionsOnCars() {
         List<Car> allCars = carService.getAllCars();
-        printActionsBlock("All cars", allCars);
+        printActionsBlock("All cars", allCars.isEmpty() ? "Not found" : allCars);
 
         Car carById = carService.getCarById(1);
-        printActionsBlock("Some car by id", carById);
+        printActionsBlock("Some car by id", carById == null ? "Not found" : carById);
 
         List<Car> carsInMaintenance = carService.getCarsInMaintenance();
-        printActionsBlock("Cars in maintenance", carsInMaintenance);
+        printActionsBlock("Cars in maintenance",
+                carsInMaintenance.isEmpty() ? "Not found" : carsInMaintenance);
 
-        double price = 78;
-        List<Car> carsWithPriceGreaterThan = carService.getCarsWithPriceGreaterThan(price);
-        printActionsBlock("Cars with price greater than " + price, carsWithPriceGreaterThan);
+        double priceGreaterThan = 78;
+        List<Car> carsWithPriceGreaterThan = carService.getCarsWithPriceGreaterThan(priceGreaterThan);
+        printActionsBlock("Cars with price greater than " + priceGreaterThan,
+                carsWithPriceGreaterThan.isEmpty() ? "Not found" : carsWithPriceGreaterThan);
 
-        List<Car> carsWithPriceEqual = carService.getCarsWithPriceEqual(91);
-        printActionsBlock("Cars with price equal " + 91, carsWithPriceEqual);
+        double priceEqual = 91;
+        List<Car> carsWithPriceEqual = carService.getCarsWithPriceEqual(priceEqual);
+        printActionsBlock("Cars with price equal " + priceEqual,
+                carsWithPriceEqual.isEmpty() ? "Not found" : carsWithPriceEqual);
 
-        int updateCarPriceStatus = carService.updateCarPrice(5, 62);
-        printActionsBlock("Changing price of a car",
-                updateCarPriceStatus > 0 ? "Price of the car with id 5 has been updated to 62" :
-                        "No such a car");
+        long carId = 5;
+        double priceUpdate = 62;
+        int updateCarPriceStatus = carService.updateCarPrice(carId, priceUpdate);
+        printActionsBlock("Changing price to " + priceUpdate + " of the car with id " + carId,
+                updateCarPriceStatus > 0 ? "Updated" :
+                        "Can't update price");
 
-//        Car car = new Car();
-//        CarSpecification carSpecification = new CarSpecification();
-//        carSpecification.setId(13);
-//        car.setCarSpecification(carSpecification)
-//                .setPricePerDay(140)
-//                .setRegistrationNumber("им423е");
-//        int addCarStatus = carService.addCar(car);
-//        printActionsBlock("Adding a car", addCarStatus > 0 ? car + " has been added" :
-//                car + " has not been added");
+        Car car = new Car();
+        CarSpecification carSpecification = new CarSpecification();
+        carSpecification.setId(20);
+        car.setCarSpecification(carSpecification)
+                .setPricePerDay(140)
+                .setRegistrationNumber("оо456о");
+        int addCarStatus = carService.addCar(car);
+        String result;
+        if (addCarStatus > 0) {
+            result = "added";
+        } else if (addCarStatus == -1) {
+            result = "registration number must be unique";
+        } else {
+            result = "used car specification doesn't exist";
+        }
+        printActionsBlock("Adding a car " + car, result);
 
-        int removeCarStatus = carService.removeCar(7);
-        printActionsBlock("Removing a car", removeCarStatus > 0 ? "Car 7 has been removed" :
-                "No such a car");
+        int removeId = 7;
+        int removeCarStatus = carService.removeCar(removeId);
+        printActionsBlock("Removing the car with id " + removeId,
+                removeCarStatus > 0 ? "Removed" : "Can't remove a car (No such a car)");
     }
 
     private void actionsOnCarsSpecifications() {
@@ -145,7 +163,11 @@ public class DemoApp {
         long deleteId = 8;
         int deleteResult = carSpecificationService.deleteCarSpecification(deleteId);
         printActionsBlock("Delete car specification id " + deleteId,
-                deleteResult > 0 ? "deleted" : "can't be deleted");
+                deleteResult > 0 ? "deleted" : "can't be deleted (no such car specification)");
+    }
+
+    private void actionsOnOrders() {
+
     }
 
     private void printActionsBlock(String blockName, Object resultOfAction) {

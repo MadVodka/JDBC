@@ -4,6 +4,7 @@ import ivan.vatlin.jdbc.dao.CarDao;
 import ivan.vatlin.jdbc.dto.Car;
 import ivan.vatlin.jdbc.statuses.CarStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,16 +14,27 @@ public class CarServiceImpl implements CarService {
     @Autowired
     private CarDao carDao;
 
+    @Autowired
+    private CarSpecificationService carSpecificationService;
+
     public List<Car> getAllCars() {
         return carDao.getAllCars();
     }
 
     public Car getCarById(long id) {
-        return carDao.getCarById(id);
+        try {
+            return carDao.getCarById(id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public Car getCarByRegNumber(String regNumber) {
-        return carDao.getCarByRegNumber(regNumber);
+        try {
+            return carDao.getCarByRegNumber(regNumber);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public List<Car> getCarsInUse() {
@@ -45,8 +57,19 @@ public class CarServiceImpl implements CarService {
         return carDao.getCarsWithPriceLessThan(price);
     }
 
+    /**
+     * @param car
+     * @return -1 registration number not unique,
+     * -2 no such car specification
+     */
     public int addCar(Car car) {
-        return carDao.addCar(car);
+        if (getCarByRegNumber(car.getRegistrationNumber()) == null) {
+            if (carSpecificationService.getCarSpecificationById(car.getCarSpecification().getId()) != null) {
+                return carDao.addCar(car);
+            }
+            return -2;
+        }
+        return -1;
     }
 
     public int removeCar(long id) {
