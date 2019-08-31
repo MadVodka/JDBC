@@ -81,7 +81,7 @@ public class ActionsWithDatabaseDemo {
                 "User id " + activateUserId + (activateUserResult > 0 ? " activated" : " can't be activated"));
 
 
-        long deleteUserId = 10;
+        long deleteUserId = 12;
         int deleteUserResult = userService.deleteUser(deleteUserId);
         printActionsBlock("Delete a user",
                 "User id " + deleteUserId + (deleteUserResult > 0 ? " deleted" : " can't be deleted"));
@@ -115,7 +115,7 @@ public class ActionsWithDatabaseDemo {
         printActionsBlock("Creating car specification " + carSpecification,
                 createResult > 0 ? "added" : "can't be added (already exists)");
 
-        long deleteId = 10;
+        long deleteId = 16;
         int deleteResult = carSpecificationService.deleteCarSpecification(deleteId);
         printActionsBlock("Delete car specification id " + deleteId,
                 deleteResult > 0 ? "deleted" : "can't be deleted (no such car specification)");
@@ -166,7 +166,7 @@ public class ActionsWithDatabaseDemo {
         }
         printActionsBlock("Adding a car " + car, result);
 
-        int removeId = 6;
+        int removeId = 9;
         int removeCarStatus = carService.removeCar(removeId);
         printActionsBlock("Removing the car with id " + removeId,
                 removeCarStatus > 0 ? "Removed" : "Can't remove a car (No such a car)");
@@ -187,12 +187,12 @@ public class ActionsWithDatabaseDemo {
         printActionsBlock("Order with id " + idOrder, denyOrderResult > 0 ? "denied" : "can't be denied");
 
         Order createOrder = new Order();
-        createOrder.setCarId(2)
-                .setUserId(20)
+        createOrder.setCarId(3)
+                .setUserId(11)
                 .setStartDate("2019-09-02")
                 .setEndDate("2019-09-07")
-                .setPricePerDay(72)
-                .setTotalPrice(504);
+                .setPricePerDay(80)
+                .setTotalPrice(560);
         int createOrderResult = orderService.createOrder(createOrder);
         printActionsBlock("Order " + createOrder, createOrderResult > 0 ? "Created" : "Can't be created");
     }
