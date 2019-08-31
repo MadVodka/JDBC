@@ -79,6 +79,11 @@ public class Order {
         return totalPrice;
     }
 
+    public Order setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -92,10 +97,4 @@ public class Order {
                 ", totalPrice=" + totalPrice +
                 '}';
     }
-
-    public Order setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-        return this;
-    }
-
 }

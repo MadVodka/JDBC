@@ -62,15 +62,15 @@ public class ActionsWithDatabaseDemo {
                 admins.isEmpty() ? "Users not found" : admins);
 
         User user = new User();
-        user.setUserName("igorIgor")
-                .setFirstName("Игорь")
-                .setSecondName("Великий")
+        user.setUserName("iamtheone")
+                .setFirstName("Рон")
+                .setSecondName("Уизли")
                 .setUserRole(UserRole.CLIENT);
         int userCreationResult = userService.createUser(user);
         printActionsBlock("Create a new user as client",
                 user + (userCreationResult > 0 ? " created" : " can't be created. Check use other username"));
 
-        long blockUserId = 16;
+        long blockUserId = 11;
         int blockUserResult = userService.blockUser(blockUserId);
         printActionsBlock("Block a user",
                 "User id " + blockUserId + (blockUserResult > 0 ? " blocked" : " can't be blocked"));
@@ -81,10 +81,44 @@ public class ActionsWithDatabaseDemo {
                 "User id " + activateUserId + (activateUserResult > 0 ? " activated" : " can't be activated"));
 
 
-        long deleteUserId = 1;
-        int deleteUserResult = userService.deleteUser(1);
+        long deleteUserId = 10;
+        int deleteUserResult = userService.deleteUser(deleteUserId);
         printActionsBlock("Delete a user",
                 "User id " + deleteUserId + (deleteUserResult > 0 ? " deleted" : " can't be deleted"));
+    }
+
+    private void actionsOnCarsSpecifications() {
+        List<CarSpecification> carSpecifications = carSpecificationService.getCarSpecifications();
+        printActionsBlock("All cars specifications",
+                carSpecifications == null ? "Not found" : carSpecifications);
+
+        long id = 15;
+        CarSpecification carSpecificationById = carSpecificationService.getCarSpecificationById(id);
+        printActionsBlock("Car specification by id " + id,
+                carSpecificationById == null ? " not found" : carSpecificationById);
+
+        String brand = "Audi";
+        List<CarSpecification> specificationByBrand = carSpecificationService.getCarSpecificationByBrand(brand);
+        printActionsBlock("Car specifications (brand " + brand + ")",
+                specificationByBrand == null ? "not found" : specificationByBrand);
+
+        int year = 2012;
+        List<CarSpecification> carSpecificationByYear = carSpecificationService.getCarSpecificationByYear(2014);
+        printActionsBlock("Car specifications (year " + year + ")",
+                carSpecificationByYear == null ? "not found" : carSpecificationByYear);
+
+        CarSpecification carSpecification = new CarSpecification();
+        carSpecification.setBrand("Nissan")
+                .setModel("Cube")
+                .setYearMade(2017);
+        int createResult = carSpecificationService.createCarSpecification(carSpecification);
+        printActionsBlock("Creating car specification " + carSpecification,
+                createResult > 0 ? "added" : "can't be added (already exists)");
+
+        long deleteId = 10;
+        int deleteResult = carSpecificationService.deleteCarSpecification(deleteId);
+        printActionsBlock("Delete car specification id " + deleteId,
+                deleteResult > 0 ? "deleted" : "can't be deleted (no such car specification)");
     }
 
     private void actionsOnCars() {
@@ -103,13 +137,13 @@ public class ActionsWithDatabaseDemo {
         printActionsBlock("Cars with price greater than " + priceGreaterThan,
                 carsWithPriceGreaterThan.isEmpty() ? "Not found" : carsWithPriceGreaterThan);
 
-        double priceEqual = 91;
+        double priceEqual = 90;
         List<Car> carsWithPriceEqual = carService.getCarsWithPriceEqual(priceEqual);
         printActionsBlock("Cars with price equal " + priceEqual,
                 carsWithPriceEqual.isEmpty() ? "Not found" : carsWithPriceEqual);
 
-        long carId = 5;
-        double priceUpdate = 62;
+        long carId = 1;
+        double priceUpdate = 69;
         int updateCarPriceStatus = carService.updateCarPrice(carId, priceUpdate);
         printActionsBlock("Changing price to " + priceUpdate + " of the car with id " + carId,
                 updateCarPriceStatus > 0 ? "Updated" :
@@ -117,7 +151,7 @@ public class ActionsWithDatabaseDemo {
 
         Car car = new Car();
         CarSpecification carSpecification = new CarSpecification();
-        carSpecification.setId(20);
+        carSpecification.setId(2);
         car.setCarSpecification(carSpecification)
                 .setPricePerDay(140)
                 .setRegistrationNumber("оо456о");
@@ -132,44 +166,10 @@ public class ActionsWithDatabaseDemo {
         }
         printActionsBlock("Adding a car " + car, result);
 
-        int removeId = 7;
+        int removeId = 6;
         int removeCarStatus = carService.removeCar(removeId);
         printActionsBlock("Removing the car with id " + removeId,
                 removeCarStatus > 0 ? "Removed" : "Can't remove a car (No such a car)");
-    }
-
-    private void actionsOnCarsSpecifications() {
-        List<CarSpecification> carSpecifications = carSpecificationService.getCarSpecifications();
-        printActionsBlock("All cars specifications",
-                carSpecifications == null ? "Not found" : carSpecifications);
-
-        long id = 15;
-        CarSpecification carSpecificationById = carSpecificationService.getCarSpecificationById(id);
-        printActionsBlock("Car specification by id " + id,
-                carSpecificationById == null ? " not found" : carSpecificationById);
-
-        String brand = "Audi";
-        List<CarSpecification> specificationByBrand = carSpecificationService.getCarSpecificationByBrand(brand);
-        printActionsBlock("Car specifications (brand " + brand + ")",
-                specificationByBrand == null ? "not found" : specificationByBrand);
-
-        int year = 2014;
-        List<CarSpecification> carSpecificationByYear = carSpecificationService.getCarSpecificationByYear(2014);
-        printActionsBlock("Car specifications (year " + year + ")",
-                carSpecificationByYear == null ? "not found" : carSpecificationByYear);
-
-        CarSpecification carSpecification = new CarSpecification();
-        carSpecification.setBrand("Nissan")
-                .setModel("Juke")
-                .setYearMade(2011);
-        int createResult = carSpecificationService.createCarSpecification(carSpecification);
-        printActionsBlock("Creating car specification " + carSpecification,
-                createResult > 0 ? "added" : "can't be added (already exists)");
-
-        long deleteId = 8;
-        int deleteResult = carSpecificationService.deleteCarSpecification(deleteId);
-        printActionsBlock("Delete car specification id " + deleteId,
-                deleteResult > 0 ? "deleted" : "can't be deleted (no such car specification)");
     }
 
     private void actionsOnOrders() {
@@ -189,10 +189,10 @@ public class ActionsWithDatabaseDemo {
         Order createOrder = new Order();
         createOrder.setCarId(2)
                 .setUserId(20)
-                .setStartDate("2019-09-04")
-                .setEndDate("2019-09-10")
-                .setPricePerDay(100)
-                .setTotalPrice(700);
+                .setStartDate("2019-09-02")
+                .setEndDate("2019-09-07")
+                .setPricePerDay(72)
+                .setTotalPrice(504);
         int createOrderResult = orderService.createOrder(createOrder);
         printActionsBlock("Order " + createOrder, createOrderResult > 0 ? "Created" : "Can't be created");
     }

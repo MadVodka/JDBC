@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class CarMapper implements RowMapper<Car> {
     public Car mapRow(ResultSet resultSet, int i) throws SQLException {
         Car car = new Car();
