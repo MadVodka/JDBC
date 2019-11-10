@@ -24,13 +24,15 @@ DROP TABLE IF EXISTS `cars`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cars` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `regNumber` varchar(45) NOT NULL,
+  `price_per_day` double DEFAULT NULL,
+  `reg_number` varchar(45) NOT NULL,
   `status` enum('IDLE','IN_USE','IN_MAINTAINANCE','WRITTEN_OFF') NOT NULL DEFAULT 'IDLE',
   `cars_spec_id` int(11) NOT NULL,
   PRIMARY KEY (`id`,`cars_spec_id`),
+  UNIQUE KEY `regNumber_UNIQUE` (`reg_number`),
   KEY `fk_cars_cars_info1_idx` (`cars_spec_id`),
   CONSTRAINT `fk_cars_cars_info1` FOREIGN KEY (`cars_spec_id`) REFERENCES `cars_specification` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +41,7 @@ CREATE TABLE `cars` (
 
 LOCK TABLES `cars` WRITE;
 /*!40000 ALTER TABLE `cars` DISABLE KEYS */;
-INSERT INTO `cars` VALUES (1,'ла231з','IDLE',3),(2,'щц923ц','IDLE',4),(3,'со195ч','WRITTEN_OFF',2),(4,'кс710у','IDLE',7),(5,'ог198п','IDLE',2),(6,'яо825ч','IDLE',9),(7,'те395у','IDLE',10),(8,'лу045с','IN_MAINTAINANCE',15),(9,'сс777с','IDLE',1),(10,'уи428ц','IN_MAINTAINANCE',5),(11,'зч264а','IDLE',4);
+INSERT INTO `cars` VALUES (1,69,'ла231з','IDLE',3),(2,100,'щц923ц','IDLE',4),(3,50,'со195ч','WRITTEN_OFF',2),(4,80,'кс710у','IDLE',7),(5,62,'ог198п','IDLE',2),(8,55,'лу045с','IN_MAINTAINANCE',15),(9,130,'сс777с','IDLE',1),(10,90,'уи428ц','IN_MAINTAINANCE',5),(11,100,'зч264а','IDLE',4),(12,140,'им423е','IDLE',13);
 /*!40000 ALTER TABLE `cars` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,9 +57,8 @@ CREATE TABLE `cars_specification` (
   `brand` varchar(45) NOT NULL,
   `model` varchar(45) NOT NULL,
   `year_made` smallint(6) NOT NULL,
-  `pricePerDay` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +67,7 @@ CREATE TABLE `cars_specification` (
 
 LOCK TABLES `cars_specification` WRITE;
 /*!40000 ALTER TABLE `cars_specification` DISABLE KEYS */;
-INSERT INTO `cars_specification` VALUES (1,'Ford','Mustang',2015,130),(2,'Hyundai','Solaris',2013,50),(3,'Hyundai','Solaris',2011,45),(4,'Audi','A4',2018,100),(5,'BMW','X1',2015,90),(7,'Audi','Q3',2014,80),(8,'Kia','Optima',2015,76),(9,'Kia','Rio',2018,80),(10,'Kia','Rio',2012,50),(11,'Fiat','Albea',2013,67),(12,'Toyota','Land Cruiser L200',2019,200),(13,'Mercedes','C-class',2017,140),(14,'Seat','Leon',2012,85),(15,'Skoda','Yeti',2010,55),(16,'Ford','Kuga',2017,59),(17,'Renault','Duster',2015,65);
+INSERT INTO `cars_specification` VALUES (1,'Ford','Mustang',2015),(2,'Hyundai','Solaris',2013),(3,'Hyundai','Solaris',2011),(4,'Audi','A4',2018),(5,'BMW','X1',2015),(7,'Audi','Q3',2014),(9,'Kia','Rio',2018),(11,'Fiat','Albea',2013),(12,'Toyota','Land Cruiser L200',2019),(13,'Mercedes','C-class',2017),(14,'Seat','Leon',2012),(15,'Skoda','Yeti',2010),(16,'Ford','Kuga',2017),(17,'Renault','Duster',2015),(18,'Nissan','Juke',2011);
 /*!40000 ALTER TABLE `cars_specification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +93,7 @@ CREATE TABLE `orders` (
   KEY `fk_orders_car_fleet1_idx` (`cars_id`),
   CONSTRAINT `fk_orders_car_fleet1` FOREIGN KEY (`cars_id`) REFERENCES `cars` (`id`),
   CONSTRAINT `fk_orders_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +102,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,'2019-08-29','2019-09-01',8,4,'DENIED',80,320,NULL),(3,'2019-08-30','2019-09-06',14,11,'APPROVED',100,800,NULL);
+INSERT INTO `orders` VALUES (1,'2019-08-29','2019-09-01',8,4,'DENIED',80,320,NULL),(3,'2019-08-30','2019-09-06',14,11,'DENIED',100,800,NULL),(6,'2019-09-04','2019-09-10',20,2,'IN_WAITING',100,700,NULL),(7,'2019-09-04','2019-09-10',20,2,'IN_WAITING',100,700,NULL),(8,'2019-09-02','2019-09-07',20,2,'IN_WAITING',72,504,NULL);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,15 +115,15 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userName` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
-  `firstName` varchar(45) DEFAULT NULL,
-  `secondName` varchar(45) DEFAULT NULL,
-  `role` enum('ADMIN','CLIENT') NOT NULL DEFAULT 'CLIENT',
+  `user_name` varchar(45) NOT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  `first_name` varchar(45) DEFAULT NULL,
+  `second_name` varchar(45) DEFAULT NULL,
+  `role` enum('ADMIN','USER') DEFAULT NULL,
   `status` enum('ACTIVE','BLOCKED','DELETED') NOT NULL DEFAULT 'ACTIVE',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `userName_UNIQUE` (`userName`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `userName_UNIQUE` (`user_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,9 +132,13 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (8,'ivan','','Иван','Нифедов','CLIENT','ACTIVE'),(9,'andrew','','Андрей','Леонов','CLIENT','ACTIVE'),(10,'str123','','Олег','Киреев','CLIENT','ACTIVE'),(11,'george1','','Георгий','Титов','CLIENT','ACTIVE'),(12,'kill_bill','','Квентин','Тарантино','CLIENT','ACTIVE'),(13,'super_god','',NULL,NULL,'ADMIN','ACTIVE'),(14,'perq777','','Петр','Фишер','CLIENT','ACTIVE'),(15,'rabbit_me','','Роман','Хлебов','CLIENT','BLOCKED'),(16,'real_thug69','','Сергей','Полежайкин','CLIENT','ACTIVE'),(19,'second_manager','',NULL,NULL,'ADMIN','ACTIVE'),(20,'igorIgor','','Игорь','Великий','CLIENT','ACTIVE');
+INSERT INTO `users` VALUES (8,'ivan','','Иван','Нифедов','USER','ACTIVE'),(9,'andrew','','Андрей','Леонов','USER','ACTIVE'),(11,'george1','','Георгий','Титов','USER','ACTIVE'),(12,'kill_bill','','Квентин','Тарантино','USER','ACTIVE'),(13,'super_god','',NULL,NULL,'ADMIN','ACTIVE'),(14,'perq777','','Петр','Фишер','USER','ACTIVE'),(15,'rabbit_me','','Роман','Хлебов','USER','BLOCKED'),(16,'real_thug69','','Сергей','Полежайкин','USER','BLOCKED'),(19,'second_manager','',NULL,NULL,'ADMIN','ACTIVE'),(20,'igorIgor','','Игорь','Великий','USER','ACTIVE');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'cars_rent'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -144,4 +149,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-28 11:40:44
+-- Dump completed on 2019-11-10 19:35:15
